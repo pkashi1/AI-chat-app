@@ -2,6 +2,7 @@ import bot from './assets/bot.svg'
 import user from './assets/user.svg'
 
 const form = document.querySelector('form')
+const edit = document.querySelector('#edit')
 const chatContainer = document.querySelector('#chat_container')
 
 let loadInterval
@@ -86,7 +87,7 @@ const handleSubmit = async (e) => {
   // messageDiv.innerHTML = "..."
   loader(messageDiv)
 
-  const response = await fetch('https://localhost:5002', {
+  const response = await fetch('http://localhost:5002', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ const handleSubmit = async (e) => {
     /* Parsing the response body as JSON. */
     const data = await response.json();
     const parsedData = data.bot.trim() // trims any trailing spaces/'\n' 
-
+    console.log({ parsedData });
     /* A function that types out the text in the messageDiv element. */
     typeText(messageDiv, parsedData)
   } else {
@@ -115,7 +116,9 @@ const handleSubmit = async (e) => {
 }
 
 form.addEventListener('submit', handleSubmit)
+edit.addEventListener('submit', handleEdit)
 form.addEventListener('keyup', (e) => {
+
   if (e.keyCode === 13) {
     handleSubmit(e)
   }
